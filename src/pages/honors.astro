@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+import { Award, ExternalLink } from "lucide-astro";
+import Layout from "@layouts/Layout.astro";
+import { certificates } from "@data/certificates";
+import { awards, honors } from "@data/cv";
+import { withBase } from "@utils/paths";
+---
+
+<Layout title="荣誉与证书 | 龚城圩" description="龚城圩的代表性竞赛荣誉、奖项证书与公开成果证明。">
+  <section class="page-title">
+    <p class="section-kicker">荣誉与证书</p>
+    <h1>代表性竞赛荣誉与证书</h1>
+    <p>
+      这里集中展示部分代表性获奖证书，用于补充论文、项目和简历中的文字成果。证书图采用原图内容压缩展示，不直接使用原始高清扫描件。
+    </p>
+    <div class="action-row">
+      <a class="button primary" href={withBase("/cv")}>返回个人简历 <ExternalLink size={17} /></a>
+      <a class="button secondary" href={withBase("/files/GCX_resume_v4.pdf")}>下载个人简历 PDF</a>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-title-row">
+      <div>
+        <p class="section-kicker">证书墙</p>
+        <h2>以代表性证书展示算法、建模、电子设计与系统实现能力</h2>
+      </div>
+      <span class="subtle-note">精选 {certificates.length} 项</span>
+    </div>
+    <div class="certificate-grid">
+      {
+        certificates.map((certificate) => (
+          <article class="certificate-card">
+            <div class="certificate-media">
+              <Image src={certificate.image} alt={certificate.alt} loading="lazy" />
+            </div>
+            <div class="certificate-body">
+              <span>{certificate.year} · {certificate.category}</span>
+              <h3>{certificate.title}</h3>
+              <p>{certificate.level}</p>
+              {certificate.note && <small>{certificate.note}</small>}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title">
+        <h2>竞赛获奖清单</h2>
+        <p>文字清单保留完整获奖脉络，证书墙仅展示部分代表性图片。</p>
+      </div>
+      <div class="award-list">
+        {
+          awards.map((award) => (
+            <article>
+              <span>{award.year}</span>
+              <h3>{award.title}</h3>
+              <p>{award.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div>
+      <div class="section-title">
+        <h2>荣誉与奖学金</h2>
+      </div>
+      <ul class="plain-list icon-list">
+        {honors.map((honor) => <li><Award size={16} /> <span>{honor}</span></li>)}
+      </ul>
+    </div>
+  </section>
+</Layout>

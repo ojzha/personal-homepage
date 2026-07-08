@@ -37,6 +37,7 @@ export const profile = {
     { href: "/", label: "首页" },
     { href: "/publications", label: "论文成果" },
     { href: "/projects", label: "科研项目" },
+    { href: "/honors", label: "荣誉证书" },
     { href: "/blog", label: "博客" },
     { href: "/cv", label: "个人简历" }
   ]

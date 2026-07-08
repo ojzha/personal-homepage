@@ -1,5 +1,6 @@
 ---
 import { ArrowRight, Download, NotebookPen } from "lucide-astro";
+import { Image } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import PublicationCard from "@components/PublicationCard.astro";
 import ProjectCard from "@components/ProjectCard.astro";
@@ -8,6 +9,7 @@ import { publications } from "@data/publications";
 import { projects } from "@data/projects";
 import { posts } from "@data/blog";
 import { withBase } from "@utils/paths";
+import portraitImage from "../assets/images/profile/portrait.webp";
 
 const featuredPublications = publications.filter((publication) => publication.featured).slice(0, 4);
 const featuredProjects = projects.filter((project) => project.featured).slice(0, 2);
@@ -27,8 +29,10 @@ const featuredProjects = projects.filter((project) => project.featured).slice(0,
       </div>
     </div>
 
-    <aside class="overview-panel">
-      <img src={withBase("/assets/spectral-intelligence-hero.png")} alt="光谱智能与多源感知示意图" />
+    <aside class="overview-panel portrait-panel">
+      <div class="portrait-frame">
+        <Image src={portraitImage} alt="龚城圩个人头像" loading="eager" />
+      </div>
       <div class="stats-compact">
         {profile.stats.map((item) => <div><strong>{item.value}</strong><span>{item.label}</span></div>)}
       </div>
