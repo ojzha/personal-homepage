@@ -1,0 +1,21 @@
+---
+import Layout from "@layouts/Layout.astro";
+import ProjectCard from "@components/ProjectCard.astro";
+import { projects } from "@data/projects";
+---
+
+<Layout title="科研项目 | 龚城圩" description="龚城圩的科研项目与检测系统经历。">
+  <section class="page-title">
+    <p class="section-kicker">科研项目</p>
+    <h1>从多源传感数据到智能检测系统</h1>
+    <p>
+      项目经历覆盖光谱/介电数据采集、深度学习建模、跨域迁移、便携式检测方案和软件系统开发。
+    </p>
+  </section>
+
+  <section class="section-block">
+    <div class="project-list">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</Layout>

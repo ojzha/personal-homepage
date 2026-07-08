@@ -1,0 +1,24 @@
+---
+import Layout from "./Layout.astro";
+
+const { frontmatter } = Astro.props;
+---
+
+<Layout title={`${frontmatter.title} | 龚城圩`} description={frontmatter.description}>
+  <section class="page-title narrow">
+    <p class="section-kicker">博客</p>
+    <h1>{frontmatter.title}</h1>
+    <p>{frontmatter.description}</p>
+    <div class="meta-line">
+      <span>{frontmatter.date}</span>
+      {
+        frontmatter.tags?.map((tag: string) => (
+          <span class="tag">{tag}</span>
+        ))
+      }
+    </div>
+  </section>
+  <article class="article">
+    <slot />
+  </article>
+</Layout>

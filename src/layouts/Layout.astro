@@ -1,0 +1,53 @@
+---
+import "../styles/global.css";
+import { profile } from "@data/profile";
+import { isActivePath, withBase } from "@utils/paths";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${profile.name} | 个人主页`,
+  description = profile.summary
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={withBase("/")} aria-label="返回首页">
+        <span class="brand-mark">龚</span>
+        <span>
+          <strong>{profile.name}</strong>
+          <small>{profile.englishName} · {profile.affiliation}</small>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        {
+          profile.navigation.map((item) => (
+            <a class={isActivePath(pathname, item.href) ? "active" : ""} href={withBase(item.href)}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} {profile.name}。个人学术主页与博客，持续更新中。</p>
+    </footer>
+  </body>
+</html>

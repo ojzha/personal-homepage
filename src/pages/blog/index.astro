@@ -1,0 +1,36 @@
+---
+import { NotebookPen } from "lucide-astro";
+import Layout from "@layouts/Layout.astro";
+import { posts } from "@data/blog";
+import { withBase } from "@utils/paths";
+---
+
+<Layout title="博客 | 龚城圩" description="龚城圩的科研笔记、申请整理和技术记录。">
+  <section class="page-title">
+    <p class="section-kicker">博客</p>
+    <h1>科研笔记与申请记录</h1>
+    <p>
+      这里用于记录论文阅读、模型实验、个人主页维护、博士申请材料整理和阶段性思考。
+    </p>
+  </section>
+
+  <section class="section-block">
+    <div class="blog-list">
+      {
+        posts.map((post) => (
+          <a class="blog-entry" href={withBase(post.href)}>
+            <NotebookPen size={18} />
+            <div>
+              <span class="date">{post.date}</span>
+              <h2>{post.title}</h2>
+              <p>{post.description}</p>
+              <div class="tag-row">
+                {post.tags.map((tag) => <span class="tag">{tag}</span>)}
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

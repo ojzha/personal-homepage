@@ -1,0 +1,109 @@
+---
+import { Download, ExternalLink } from "lucide-astro";
+import Layout from "@layouts/Layout.astro";
+import { profile } from "@data/profile";
+import { awards, honors, patents, skills, softwareCopyrights } from "@data/cv";
+import { withBase } from "@utils/paths";
+---
+
+<Layout title="个人简历 | 龚城圩" description="龚城圩的个人简历摘要。">
+  <section class="page-title">
+    <p class="section-kicker">个人简历</p>
+    <h1>简历摘要</h1>
+    <p>
+      这里展示公开版成果摘要。正式 PDF 简历后续确认隐私信息后再挂载下载。
+    </p>
+    <div class="action-row">
+      <a class="button secondary disabled" aria-disabled="true">公开版 PDF 待更新 <Download size={17} /></a>
+      <a class="button primary" href={withBase("/publications")}>查看完整论文列表 <ExternalLink size={17} /></a>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="stats-compact horizontal">
+      {profile.stats.map((item) => <div><strong>{item.value}</strong><span>{item.label}</span></div>)}
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title">
+        <h2>专利</h2>
+        <p>围绕便携式检测、原位测量和智能仪器方案形成的授权实用新型专利。</p>
+      </div>
+      <div class="timeline-list">
+        {
+          patents.map((item) => (
+            <article>
+              <span>{item.year}</span>
+              <h3>{item.title}</h3>
+              <p>{item.type} · {item.role}</p>
+              <small>{item.number}</small>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div>
+      <div class="section-title">
+        <h2>软件著作权</h2>
+        <p>覆盖检测、识别、分析和结果可视化等软件系统。</p>
+      </div>
+      <div class="timeline-list">
+        {
+          softwareCopyrights.map((item) => (
+            <article>
+              <span>{item.year}</span>
+              <h3>{item.title}</h3>
+              {item.number && <small>{item.number}</small>}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-title">
+      <h2>竞赛获奖</h2>
+      <p>主要体现算法应用、数学建模、编程能力和团队组织经历。</p>
+    </div>
+    <div class="award-list">
+      {
+        awards.map((award) => (
+          <article>
+            <span>{award.year}</span>
+            <h3>{award.title}</h3>
+            <p>{award.detail}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title">
+        <h2>荣誉与奖学金</h2>
+      </div>
+      <ul class="plain-list">
+        {honors.map((honor) => <li>{honor}</li>)}
+      </ul>
+    </div>
+    <div>
+      <div class="section-title">
+        <h2>研究技能</h2>
+      </div>
+      <div class="skill-list">
+        {
+          skills.map((skill) => (
+            <article>
+              <h3>{skill.title}</h3>
+              <p>{skill.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,28 @@
+---
+import type { Publication } from "@data/publications";
+
+interface Props {
+  publication: Publication;
+  index?: number;
+}
+
+const { publication, index } = Astro.props;
+---
+
+<article class="publication-item">
+  <div class="publication-index">{index ? String(index).padStart(2, "0") : publication.year}</div>
+  <div class="publication-body">
+    <h3>{publication.title}</h3>
+    <p class="authors">作者：{publication.authors}</p>
+    <p class="venue">期刊：{publication.venue} · {publication.year}</p>
+    <div class="meta-line">
+      <span>{publication.role}</span>
+      {publication.status && <span>{publication.status}</span>}
+      {publication.impact && <span>{publication.impact}</span>}
+      {publication.zone && <span>{publication.zone}</span>}
+    </div>
+    <div class="tag-row">
+      {publication.tags.map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+  </div>
+</article>
