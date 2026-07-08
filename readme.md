@@ -28,3 +28,27 @@ npm run preview
 - 页面位于 `src/pages/`。
 - 博客文章位于 `src/pages/blog/`，每篇文章使用 Markdown 编写。
 - 公开版 PDF 简历后续可放入 `public/`，再在 `src/pages/cv.astro` 中启用下载链接。
+
+## 发布到 GitHub Pages
+
+项目已经配置 `.github/workflows/deploy.yml`，推送到 GitHub 后可通过 GitHub Actions 自动构建并发布。
+
+建议流程：
+
+1. 在 GitHub 新建一个空仓库，推荐仓库名 `personal-homepage`。
+2. 将本地仓库推送到 GitHub：
+
+```powershell
+git remote add origin https://github.com/<你的GitHub用户名>/personal-homepage.git
+git push -u origin main
+```
+
+3. 进入 GitHub 仓库的 `Settings -> Pages`。
+4. 将 `Source` 设置为 `GitHub Actions`。
+5. 等待 Actions 执行完成后，网站地址通常为：
+
+```text
+https://<你的GitHub用户名>.github.io/personal-homepage/
+```
+
+项目已处理 GitHub Pages 子路径，发布到项目页时站内链接和图片资源会自动加上仓库名前缀。
