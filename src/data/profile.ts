@@ -5,10 +5,18 @@ export const profile = {
   focus:
     "面向复杂样本与复杂场景，开展光谱/介电信号处理、低成本光谱重建、跨域迁移建模与智能检测系统开发。",
   summary:
-    "西北农林科技大学硕士研究生。研究经历集中在多源传感数据建模、生成式光谱重建、跨品种/跨设备模型迁移和检测软件系统实现。后续博士申请方向将重点靠近智能感知、光学检测、仪器系统与复杂信号智能建模。",
+    "西北农林科技大学硕士研究生，研究经历集中在多源传感数据建模、生成式光谱重建、跨品种/跨设备模型迁移和检测软件系统实现。",
   location: "陕西杨凌",
   affiliation: "西北农林科技大学",
   degree: "硕士研究生",
+  email: "gcx@nwafu.edu.cn",
+  languages: "CET-6（500+）、IELTS（6.0）",
+  publicInfo: [
+    { label: "籍贯", value: "广东东莞" },
+    { label: "政治面貌", value: "中共党员" },
+    { label: "外语水平", value: "CET-6（500+）、IELTS（6.0）" },
+    { label: "邮箱", value: "gcx@nwafu.edu.cn" }
+  ],
   researchKeywords: [
     "多源感知",
     "光谱智能建模",

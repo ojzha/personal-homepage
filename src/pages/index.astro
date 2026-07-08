@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, FileText, NotebookPen } from "lucide-astro";
+import { ArrowRight, Download, NotebookPen } from "lucide-astro";
 import Layout from "@layouts/Layout.astro";
 import PublicationCard from "@components/PublicationCard.astro";
 import ProjectCard from "@components/ProjectCard.astro";
@@ -23,7 +23,7 @@ const featuredProjects = projects.filter((project) => project.featured).slice(0,
       <p class="summary">{profile.summary}</p>
       <div class="action-row">
         <a class="button primary" href={withBase("/publications")}>查看论文成果 <ArrowRight size={17} /></a>
-        <a class="button secondary" href={withBase("/cv")}>个人简历摘要 <FileText size={17} /></a>
+        <a class="button secondary" href={withBase("/files/GCX_resume_v4.pdf")}>下载个人简历 PDF <Download size={17} /></a>
       </div>
     </div>
 
@@ -43,6 +43,14 @@ const featuredProjects = projects.filter((project) => project.featured).slice(0,
     </div>
     <div class="keyword-grid">
       {profile.researchKeywords.map((keyword) => <span>{keyword}</span>)}
+    </div>
+    <div class="info-grid">
+      {profile.publicInfo.map((item) => (
+        <div>
+          <span>{item.label}</span>
+          <strong>{item.value}</strong>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -75,8 +83,8 @@ const featuredProjects = projects.filter((project) => project.featured).slice(0,
   <section class="section-block blog-preview">
     <div class="section-title">
       <p class="section-kicker">博客</p>
-      <h2>科研笔记、申请整理和技术记录</h2>
-      <p>博客暂以中文记录为主，用来沉淀论文阅读、模型思考、网页建设和博士申请材料整理。</p>
+      <h2>科研笔记、技术记录与阶段性总结</h2>
+      <p>博客暂以中文记录为主，用来沉淀论文阅读、模型思考、网页建设、技术实践和阶段性总结。</p>
     </div>
     <div class="post-list">
       {

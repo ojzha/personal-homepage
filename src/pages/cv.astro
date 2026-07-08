@@ -2,7 +2,16 @@
 import { Download, ExternalLink } from "lucide-astro";
 import Layout from "@layouts/Layout.astro";
 import { profile } from "@data/profile";
-import { awards, honors, patents, skills, softwareCopyrights } from "@data/cv";
+import {
+  awards,
+  education,
+  honors,
+  patents,
+  publicInfo,
+  skills,
+  softwareCopyrights,
+  traits
+} from "@data/cv";
 import { withBase } from "@utils/paths";
 ---
 
@@ -11,11 +20,46 @@ import { withBase } from "@utils/paths";
     <p class="section-kicker">个人简历</p>
     <h1>简历摘要</h1>
     <p>
-      这里展示公开版成果摘要。正式 PDF 简历后续确认隐私信息后再挂载下载。
+      这里展示公开版成果摘要。PDF 简历可直接下载，网页正文仅保留适合公开展示的信息。
     </p>
     <div class="action-row">
-      <a class="button secondary disabled" aria-disabled="true">公开版 PDF 待更新 <Download size={17} /></a>
+      <a class="button secondary" href={withBase("/files/GCX_resume_v4.pdf")}>下载个人简历 PDF <Download size={17} /></a>
       <a class="button primary" href={withBase("/publications")}>查看完整论文列表 <ExternalLink size={17} /></a>
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title">
+        <h2>教育背景</h2>
+      </div>
+      <div class="education-list">
+        {
+          education.map((item) => (
+            <article>
+              <span>{item.period}</span>
+              <h3>{item.school} · {item.degree}</h3>
+              <p>{item.major} · {item.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div>
+      <div class="section-title">
+        <h2>公开资料</h2>
+        <p>网页仅展示适合公开检索的信息，详细联系方式以 PDF 简历为准。</p>
+      </div>
+      <div class="info-grid compact">
+        {
+          publicInfo.map((item) => (
+            <div>
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -104,6 +148,22 @@ import { withBase } from "@utils/paths";
           ))
         }
       </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-title">
+      <h2>个人特质</h2>
+    </div>
+    <div class="trait-list">
+      {
+        traits.map((trait) => (
+          <article>
+            <h3>{trait.title}</h3>
+            <p>{trait.description}</p>
+          </article>
+        ))
+      }
     </div>
   </section>
 </Layout>

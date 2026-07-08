@@ -1,3 +1,27 @@
+export const education = [
+  {
+    school: "西北农林科技大学",
+    degree: "硕士（推免）",
+    major: "电子信息工程",
+    period: "2024.09 至今",
+    detail: "GPA：3.86/4；排名：1/63"
+  },
+  {
+    school: "西北农林科技大学",
+    degree: "本科",
+    major: "机械电子工程",
+    period: "2020.09 - 2024.06",
+    detail: "GPA：3.64/4；排名：8/96"
+  }
+];
+
+export const publicInfo = [
+  { label: "籍贯", value: "广东东莞" },
+  { label: "政治面貌", value: "中共党员" },
+  { label: "外语水平", value: "CET-6（500+）、IELTS（6.0）" },
+  { label: "邮箱", value: "gcx@nwafu.edu.cn" }
+];
+
 export const patents = [
   {
     title: "一种基于多光谱技术的便携式土壤有机质含量检测装置",
@@ -86,5 +110,16 @@ export const skills = [
     title: "AI 工具与科研流程",
     description:
       "能够使用 AI 工具辅助文献调研、代码开发、数据分析与科研写作，并持续跟踪智能建模相关前沿进展。"
+  }
+];
+
+export const traits = [
+  {
+    title: "长期目标管理",
+    description: "长期坚持长跑，多次完成全程马拉松，具备持续投入和目标拆解能力。"
+  },
+  {
+    title: "自律与抗压",
+    description: "在科研、竞赛和系统开发任务中保持稳定执行，能够在长周期任务中持续推进。"
   }
 ];
