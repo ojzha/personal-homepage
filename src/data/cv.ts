@@ -22,6 +22,13 @@ export const publicInfo = [
   { label: "邮箱", value: "gcx@nwafu.edu.cn" }
 ];
 
+export const publicLinks = [
+  {
+    label: "ResearchGate",
+    href: "https://www.researchgate.net/profile/Chengxu-Gong"
+  }
+];
+
 export const patents = [
   {
     title: "一种基于多光谱技术的便携式土壤有机质含量检测装置",

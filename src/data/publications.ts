@@ -7,6 +7,7 @@ export type Publication = {
   status?: string;
   impact?: string;
   zone?: string;
+  doi?: string;
   tags: string[];
   featured?: boolean;
 };
@@ -22,6 +23,7 @@ export const publications: Publication[] = [
     role: "第一作者等效",
     impact: "IF 7.3",
     zone: "中科院 1 区 TOP",
+    doi: "10.1016/j.postharvbio.2026.114522",
     tags: ["近红外光学", "微观结构", "复杂样本表征"],
     featured: true
   },
@@ -35,6 +37,7 @@ export const publications: Publication[] = [
     role: "第一作者等效",
     impact: "IF 5.3",
     zone: "中科院 2 区 TOP",
+    doi: "10.1016/j.jfca.2026.109040",
     tags: ["介电谱", "生成对抗网络", "品质预测"],
     featured: true
   },
@@ -100,6 +103,7 @@ export const publications: Publication[] = [
     role: "第二作者论文",
     impact: "IF 4.8",
     zone: "中科院 2 区",
+    doi: "10.1016/j.saa.2026.127865",
     tags: ["可见/近红外", "特征波长", "定量建模"]
   },
   {
@@ -111,6 +115,7 @@ export const publications: Publication[] = [
     role: "第二作者论文",
     impact: "IF 3.4",
     zone: "中科院 2 区",
+    doi: "10.1016/j.jspr.2026.103101",
     tags: ["近红外光学", "储藏变化", "品种差异"]
   },
   {
@@ -121,6 +126,7 @@ export const publications: Publication[] = [
     venue: "农业机械学报",
     role: "第二作者论文",
     zone: "EI 收录",
+    doi: "10.6041/j.issn.1000-1298.2026.09.033",
     tags: ["可见/近红外", "复杂介质检测", "光谱建模"]
   },
   {
@@ -133,6 +139,7 @@ export const publications: Publication[] = [
     role: "合作论文",
     impact: "IF 8.8",
     zone: "中科院 1 区 TOP",
+    doi: "10.1016/j.foodres.2025.115868",
     tags: ["微波检测", "有限元方法", "介电测量"]
   },
   {
@@ -144,6 +151,7 @@ export const publications: Publication[] = [
     role: "合作论文",
     impact: "IF 7.3",
     zone: "中科院 1 区 TOP",
+    doi: "10.1016/j.postharvbio.2025.113748",
     tags: ["微波数据", "时间预测", "信号建模"]
   },
   {
@@ -168,6 +176,7 @@ export const publications: Publication[] = [
     role: "合作论文",
     impact: "IF 4.8",
     zone: "中科院 2 区",
+    doi: "10.1016/j.saa.2026.127684",
     tags: ["自监督学习", "多任务学习", "光谱检测"]
   },
   {
@@ -179,6 +188,7 @@ export const publications: Publication[] = [
     role: "合作论文",
     impact: "IF 7.3",
     zone: "中科院 1 区 TOP",
+    doi: "10.1016/j.postharvbio.2026.114183",
     tags: ["可见/近红外光学", "微观结构", "品质变化"]
   }
 ];

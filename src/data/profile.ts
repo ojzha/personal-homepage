@@ -11,6 +11,12 @@ export const profile = {
   degree: "硕士研究生",
   email: "gcx@nwafu.edu.cn",
   languages: "CET-6（500+）、IELTS（6.0）",
+  links: [
+    {
+      label: "ResearchGate",
+      href: "https://www.researchgate.net/profile/Chengxu-Gong"
+    }
+  ],
   publicInfo: [
     { label: "籍贯", value: "广东东莞" },
     { label: "政治面貌", value: "中共党员" },

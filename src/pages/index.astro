@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Download, NotebookPen } from "lucide-astro";
+import { ArrowRight, Download, ExternalLink, NotebookPen } from "lucide-astro";
 import { Image } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import PublicationCard from "@components/PublicationCard.astro";
@@ -25,7 +25,16 @@ const featuredProjects = projects.filter((project) => project.featured).slice(0,
       <p class="summary">{profile.summary}</p>
       <div class="action-row">
         <a class="button primary" href={withBase("/publications")}>查看论文成果 <ArrowRight size={17} /></a>
-        <a class="button secondary" href={withBase("/files/GCX_resume_v4.pdf")}>下载个人简历 PDF <Download size={17} /></a>
+        <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>下载个人简历 PDF <Download size={17} /></a>
+      </div>
+      <div class="profile-links" aria-label="公开学术链接">
+        {
+          profile.links.map((link) => (
+            <a href={link.href} target="_blank" rel="noreferrer">
+              {link.label} <ExternalLink size={15} />
+            </a>
+          ))
+        }
       </div>
     </div>
 

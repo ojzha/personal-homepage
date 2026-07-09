@@ -7,6 +7,7 @@ import {
   education,
   honors,
   patents,
+  publicLinks,
   publicInfo,
   skills,
   softwareCopyrights,
@@ -23,7 +24,7 @@ import { withBase } from "@utils/paths";
       这里展示公开版成果摘要。PDF 简历可直接下载，网页正文仅保留适合公开展示的信息。
     </p>
     <div class="action-row">
-      <a class="button secondary" href={withBase("/files/GCX_resume_v4.pdf")}>下载个人简历 PDF <Download size={17} /></a>
+      <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>下载个人简历 PDF <Download size={17} /></a>
       <a class="button primary" href={withBase("/publications")}>查看完整论文列表 <ExternalLink size={17} /></a>
     </div>
   </section>
@@ -57,6 +58,15 @@ import { withBase } from "@utils/paths";
               <span>{item.label}</span>
               <strong>{item.value}</strong>
             </div>
+          ))
+        }
+      </div>
+      <div class="profile-links compact" aria-label="公开学术链接">
+        {
+          publicLinks.map((link) => (
+            <a href={link.href} target="_blank" rel="noreferrer">
+              {link.label} <ExternalLink size={15} />
+            </a>
           ))
         }
       </div>
