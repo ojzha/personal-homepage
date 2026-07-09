@@ -18,7 +18,7 @@ export const education = [
 export const publicInfo = [
   { label: "籍贯", value: "广东东莞" },
   { label: "政治面貌", value: "中共党员" },
-  { label: "外语水平", value: "CET-6（500+）、IELTS（6.0）" },
+  { label: "外语水平", value: "CET-6（500+）" },
   { label: "邮箱", value: "gcx@nwafu.edu.cn" }
 ];
 
