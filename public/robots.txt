@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ojzha.github.io/personal-homepage/sitemap-index.xml
