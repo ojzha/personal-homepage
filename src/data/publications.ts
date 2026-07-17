@@ -91,6 +91,7 @@ export const publications: Publication[] = [
     role: "第二作者论文",
     impact: "IF 5.3",
     zone: "中科院 2 区 TOP",
+    doi: "10.1016/j.jfca.2025.108104",
     tags: ["光学特性", "成熟度评价", "光谱感知"]
   },
   {
