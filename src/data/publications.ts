@@ -75,9 +75,9 @@ export const publications: Publication[] = [
     year: "2026",
     venue: "Computers and Electronics in Agriculture",
     role: "第二作者论文",
-    status: "大修",
     impact: "IF 10.3",
     zone: "中科院 1 区 TOP",
+    doi: "10.1016/j.compag.2026.112186",
     tags: ["深度迁移学习", "跨仪器预测", "光谱泛化"],
     featured: true
   },
