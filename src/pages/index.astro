@@ -18,7 +18,9 @@ const featuredProjects = projects.filter((project) => project.featured).slice(0,
 <Layout>
   <section class="home-intro">
     <div class="profile-panel">
-      <p class="section-kicker">{profile.affiliation} · {profile.degree}</p>
+      <p class="section-kicker home-affiliation-line">
+        {profile.affiliation}（教育部直属，国家“985工程”“211工程”和“双一流”建设高校） · {profile.degree}
+      </p>
       <h1>{profile.name}</h1>
       <p class="english-name">{profile.englishName}</p>
       <p class="tagline">{profile.tagline}</p>

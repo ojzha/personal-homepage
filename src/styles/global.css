@@ -239,6 +239,12 @@ main,
   letter-spacing: 0;
 }
 
+.home-affiliation-line {
+  max-width: 100%;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+}
+
 .action-row {
   display: flex;
   flex-wrap: wrap;
@@ -789,6 +795,11 @@ main,
 
   h2 {
     font-size: 1.32rem;
+  }
+
+  .home-affiliation-line {
+    font-size: 0.82rem;
+    line-height: 1.6;
   }
 
   .site-header {
