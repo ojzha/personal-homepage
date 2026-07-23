@@ -33,7 +33,7 @@ export const profile = {
   ],
   stats: [
     { value: "14", label: "论文成果" },
-    { value: "4", label: "第一作者等效论文" },
+    { value: "4", label: "第一作者论文" },
     { value: "2", label: "授权专利" },
     { value: "4", label: "软件著作权" },
     { value: "5", label: "科研项目" },
