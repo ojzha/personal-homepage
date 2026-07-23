@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Download, ExternalLink, NotebookPen } from "lucide-astro";
+import { ArrowRight, Download, ExternalLink } from "lucide-astro";
 import { Image } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import PublicationCard from "@components/PublicationCard.astro";
@@ -7,7 +7,6 @@ import ProjectCard from "@components/ProjectCard.astro";
 import { profile } from "@data/profile";
 import { publications } from "@data/publications";
 import { projects } from "@data/projects";
-import { posts } from "@data/blog";
 import { withBase } from "@utils/paths";
 import portraitImage from "../assets/images/profile/portrait.webp";
 
@@ -95,24 +94,4 @@ const featuredProjects = projects.filter((project) => project.featured).slice(0,
     </div>
   </section>
 
-  <section class="section-block blog-preview">
-    <div class="section-title">
-      <p class="section-kicker">博客</p>
-      <h2>科研笔记、技术记录与阶段性总结</h2>
-      <p>博客暂以中文记录为主，用来沉淀论文阅读、模型思考、网页建设、技术实践和阶段性总结。</p>
-    </div>
-    <div class="post-list">
-      {
-        posts.map((post) => (
-          <a class="post-item" href={withBase(post.href)}>
-            <NotebookPen size={18} />
-            <span>
-              <strong>{post.title}</strong>
-              <small>{post.description}</small>
-            </span>
-          </a>
-        ))
-      }
-    </div>
-  </section>
 </Layout>
