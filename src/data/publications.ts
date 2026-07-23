@@ -53,7 +53,7 @@ export const publications: Publication[] = [
     venue: "Journal of Stored Products Research",
     role: "共同第一作者",
     group: "第一作者论文",
-    status: "小修",
+    status: "已录用",
     impact: "IF 3.4",
     zone: "中科院 2 区",
     tags: ["缺陷分割", "多尺度注意力", "生成式增强"],
