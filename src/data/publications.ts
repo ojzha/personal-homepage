@@ -53,9 +53,9 @@ export const publications: Publication[] = [
     venue: "Journal of Stored Products Research",
     role: "共同第一作者",
     group: "第一作者论文",
-    status: "已录用",
     impact: "IF 3.4",
     zone: "中科院 2 区",
+    doi: "10.1016/j.jspr.2026.103192",
     tags: ["缺陷分割", "多尺度注意力", "生成式增强"],
     featured: true
   },
