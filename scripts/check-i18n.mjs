@@ -141,6 +141,47 @@ for (const route of [pages.home.en, pages.honors.en, pages.cv.en]) {
   }
 }
 
+const englishHome = read(toOutputPath(pages.home.en));
+const compactPublicationMatches = englishHome.match(/<article class="en-home-publication"/g) ?? [];
+const interestMatches = englishHome.match(/class="en-home-interest-item"/g) ?? [];
+assert.equal(compactPublicationMatches.length, 3, "English home should show exactly 3 compact publications");
+assert.equal(interestMatches.length, 3, "English home should show exactly 3 primary research interests");
+
+for (const publicationId of [
+  "pub-pear-bruise-optical-properties",
+  "pub-peach-dielectric-gan",
+  "pub-u-msacnet-pear-defect-segmentation"
+]) {
+  assert.ok(
+    englishHome.includes(`data-publication-id="${publicationId}"`),
+    `English home is missing selected publication ${publicationId}`
+  );
+}
+
+for (const [key, value, label] of [
+  ["publications", "14", "Publications"],
+  ["first-author", "4", "First-author Papers"],
+  ["projects", "5", "Research Projects"]
+]) {
+  assert.match(
+    englishHome,
+    new RegExp(`data-metric="${key}"[\\s\\S]*?<strong>${value}<\\/strong>\\s*${label}`),
+    `English home metric ${key} is missing or incorrect`
+  );
+}
+
+assert.equal(
+  (englishHome.match(/href="https:\/\/doi\.org\//g) ?? []).length,
+  3,
+  "English home selected publication titles should have 3 DOI links"
+);
+for (const removedClass of ["publication-item", "project-item", "stats-compact", "keyword-grid", "info-grid", "tagline"]) {
+  assert.ok(
+    !englishHome.includes(`class="${removedClass}`),
+    `English home should not render the removed ${removedClass} block`
+  );
+}
+
 for (const route of Object.values(pages).map((pair) => pair.en)) {
   const html = read(toOutputPath(route));
   assert.ok(!html.includes("985"), `English page should not explain Chinese university designations: ${route}`);
@@ -148,4 +189,4 @@ for (const route of Object.values(pages).map((pair) => pair.en)) {
   assert.ok(!html.includes("Double First-Class"), `English page should not explain Chinese university designations: ${route}`);
 }
 
-console.log("Bilingual site checks passed: 10 routes, shared facts, SEO pairs, base paths, sitemap, and CV links.");
+console.log("Bilingual site checks passed: 10 routes, shared facts, simplified English home, SEO pairs, sitemap, and CV links.");

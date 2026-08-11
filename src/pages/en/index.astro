@@ -1,90 +1,122 @@
 ---
-import { ArrowRight, Download, ExternalLink } from "lucide-astro";
+import { ArrowRight, Download, ExternalLink, Mail } from "lucide-astro";
 import { Image } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
-import PublicationCard from "@components/PublicationCard.astro";
-import ProjectCard from "@components/ProjectCard.astro";
 import { getProfile } from "@data/profile";
-import { publications } from "@data/publications";
+import { getPublicationCounts, publications } from "@data/publications";
 import { projects } from "@data/projects";
-import { getRoute } from "@data/i18n";
+import { getRoute, localize, publicationRoleLabels } from "@data/i18n";
 import { withBase } from "@utils/paths";
 import portraitImage from "../../assets/images/profile/portrait.webp";
 
 const profile = getProfile("en");
-const featuredPublications = publications.filter((publication) => publication.featured).slice(0, 4);
-const featuredProjects = projects.filter((project) => project.featured).slice(0, 2);
+const publicationCounts = getPublicationCounts();
+const featuredPublicationIds = [
+  "pub-pear-bruise-optical-properties",
+  "pub-peach-dielectric-gan",
+  "pub-u-msacnet-pear-defect-segmentation"
+] as const;
+const featuredPublications = featuredPublicationIds.map((id) => {
+  const publication = publications.find((item) => item.id === id);
+
+  if (!publication) {
+    throw new Error(`Missing selected English-home publication: ${id}`);
+  }
+
+  return publication;
+});
+const researchInterests = ["Spectral Intelligence", "Cross-domain Learning", "Multimodal Sensing Systems"];
+const headlineMetrics = [
+  { key: "publications", value: publicationCounts.total, label: "Publications" },
+  { key: "first-author", value: publicationCounts.firstAuthor, label: "First-author Papers" },
+  { key: "projects", value: projects.length, label: "Research Projects" }
+];
 ---
 
 <Layout locale="en" pageKey="home" title="Chengxu Gong | Academic Homepage" description={profile.summary}>
-  <section class="home-intro">
-    <div class="profile-panel">
-      <p class="section-kicker home-affiliation-line">{profile.affiliation} · {profile.degree}</p>
-      <h1>{profile.name}</h1>
-      <p class="tagline">{profile.tagline}</p>
-      <p class="summary">{profile.summary}</p>
-      <div class="action-row">
-        <a class="button primary" href={withBase(getRoute("publications", "en"))}>View Publications <ArrowRight size={17} /></a>
-        <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>Download CV (Chinese PDF) <Download size={17} /></a>
+  <div class="en-home">
+    <section class="home-intro en-home-intro">
+      <div class="profile-panel en-home-profile">
+        <p class="section-kicker home-affiliation-line">{profile.affiliation} · {profile.degree}</p>
+        <h1>{profile.name}</h1>
+        <p class="summary">{profile.summary}</p>
+        <div class="action-row">
+          <a class="button primary" href={withBase(getRoute("publications", "en"))}>View Publications <ArrowRight size={17} /></a>
+          <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>Download CV (Chinese PDF) <Download size={17} /></a>
+        </div>
+        <div class="profile-links en-home-contact" aria-label="Contact and academic profiles">
+          <a href={`mailto:${profile.email}`}><Mail size={15} /> {profile.email}</a>
+          {
+            profile.links.map((link) => (
+              <a href={link.href} target="_blank" rel="noreferrer">
+                {link.label} <ExternalLink size={15} />
+              </a>
+            ))
+          }
+        </div>
+        <div class="en-home-metrics" aria-label="Selected profile metrics">
+          {
+            headlineMetrics.map((metric) => (
+              <span class="en-home-metric" data-metric={metric.key}>
+                <strong>{metric.value}</strong> {metric.label}
+              </span>
+            ))
+          }
+        </div>
       </div>
-      <div class="profile-links" aria-label="Academic profiles">
+
+      <aside class="overview-panel portrait-panel en-home-portrait">
+        <div class="portrait-frame">
+          <Image src={portraitImage} alt="Portrait of Chengxu Gong" loading="eager" />
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-block en-home-section en-home-interests">
+      <div class="en-home-section-heading">
+        <p class="section-kicker">Research Interests</p>
+        <h2>Spectral intelligence, cross-domain learning, and multimodal sensing systems.</h2>
+        <p>{profile.focus}</p>
+      </div>
+      <ul class="en-home-interest-list" aria-label="Primary research interests">
+        {researchInterests.map((interest) => <li class="en-home-interest-item">{interest}</li>)}
+      </ul>
+    </section>
+
+    <section class="section-block en-home-section">
+      <div class="section-title-row">
+        <div>
+          <p class="section-kicker">Selected Publications</p>
+          <h2>Representative first-author work</h2>
+        </div>
+        <a class="text-link" href={withBase(getRoute("publications", "en"))}>All Publications <ArrowRight size={16} /></a>
+      </div>
+      <div class="en-home-publications">
         {
-          profile.links.map((link) => (
-            <a href={link.href} target="_blank" rel="noreferrer">
-              {link.label} <ExternalLink size={15} />
-            </a>
-          ))
+          featuredPublications.map((publication) => {
+            const title = localize(publication.title, "en");
+            const doiUrl = publication.doi ? `https://doi.org/${publication.doi}` : undefined;
+
+            return (
+              <article class="en-home-publication" data-publication-id={publication.id}>
+                <span class="en-home-publication-year">{publication.year}</span>
+                <div>
+                  <h3>
+                    {doiUrl ? (
+                      <a href={doiUrl} target="_blank" rel="noreferrer">
+                        {title} <ExternalLink size={14} aria-hidden="true" />
+                      </a>
+                    ) : (
+                      title
+                    )}
+                  </h3>
+                  <p>{publication.venue} · {publicationRoleLabels.en[publication.role]}</p>
+                </div>
+              </article>
+            );
+          })
         }
       </div>
-    </div>
-
-    <aside class="overview-panel portrait-panel">
-      <div class="portrait-frame">
-        <Image src={portraitImage} alt="Portrait of Chengxu Gong" loading="eager" />
-      </div>
-      <div class="stats-compact">
-        {profile.stats.map((item) => <div><strong>{item.value}</strong><span>{item.label}</span></div>)}
-      </div>
-    </aside>
-  </section>
-
-  <section class="section-block">
-    <div class="section-title">
-      <p class="section-kicker">Research Focus</p>
-      <h2>Connecting sensing, intelligent modeling, and deployable systems.</h2>
-      <p>{profile.focus}</p>
-    </div>
-    <div class="keyword-grid">
-      {profile.researchKeywords.map((keyword) => <span>{keyword}</span>)}
-    </div>
-    <div class="info-grid">
-      {profile.publicInfo.map((item) => <div><span>{item.label}</span><strong>{item.value}</strong></div>)}
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="section-title-row">
-      <div>
-        <p class="section-kicker">Selected Publications</p>
-        <h2>First-author work and high-impact collaborations</h2>
-      </div>
-      <a class="text-link" href={withBase(getRoute("publications", "en"))}>All Publications <ArrowRight size={16} /></a>
-    </div>
-    <div class="publication-list compact-list">
-      {featuredPublications.map((publication, index) => <PublicationCard publication={publication} index={index + 1} locale="en" />)}
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="section-title-row">
-      <div>
-        <p class="section-kicker">Research Projects</p>
-        <h2>From multimodal signals to intelligent detection systems</h2>
-      </div>
-      <a class="text-link" href={withBase(getRoute("projects", "en"))}>All Projects <ArrowRight size={16} /></a>
-    </div>
-    <div class="project-list">
-      {featuredProjects.map((project) => <ProjectCard project={project} locale="en" />)}
-    </div>
-  </section>
+    </section>
+  </div>
 </Layout>
