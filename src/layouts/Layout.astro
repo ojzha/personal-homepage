@@ -1,53 +1,100 @@
 ---
+import { Languages } from "lucide-astro";
 import "../styles/global.css";
-import { profile } from "@data/profile";
-import { isActivePath, withBase } from "@utils/paths";
+import { getProfile } from "@data/profile";
+import type { Locale, PageKey } from "@data/i18n";
+import { getNavigation, getRoute } from "@data/i18n";
+import { isActivePath, toAbsoluteSiteUrl, withBase } from "@utils/paths";
 
 interface Props {
   title?: string;
   description?: string;
+  locale?: Locale;
+  pageKey?: PageKey;
 }
 
+const { locale = "zh", pageKey = "home" } = Astro.props;
+const profile = getProfile(locale);
 const {
-  title = `${profile.name} | 个人主页`,
+  title = locale === "zh" ? `${profile.name} | 个人主页` : `${profile.name} | Academic Homepage`,
   description = profile.summary
 } = Astro.props;
 
 const pathname = Astro.url.pathname;
+const navigation = getNavigation(locale);
+const alternateLocale: Locale = locale === "zh" ? "en" : "zh";
+const languageSwitchLabel = locale === "zh" ? "EN" : "中文";
+const languageSwitchAria = locale === "zh" ? "Switch to English" : "Switch to Chinese";
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = toAbsoluteSiteUrl(getRoute(pageKey, locale), site);
+const chineseUrl = toAbsoluteSiteUrl(getRoute(pageKey, "zh"), site);
+const englishUrl = toAbsoluteSiteUrl(getRoute(pageKey, "en"), site);
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={locale === "zh" ? "zh-CN" : "en"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="zh-CN" href={chineseUrl} />
+    <link rel="alternate" hreflang="en" href={englishUrl} />
+    <link rel="alternate" hreflang="x-default" href={chineseUrl} />
     <title>{title}</title>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href={withBase("/")} aria-label="返回首页">
-        <span class="brand-mark">龚</span>
-        <span>
-          <strong>{profile.name}</strong>
-          <small>{profile.englishName} · {profile.affiliation}</small>
-        </span>
-      </a>
-      <nav class="site-nav" aria-label="主导航">
-        {
-          profile.navigation.map((item) => (
-            <a class={isActivePath(pathname, item.href) ? "active" : ""} href={withBase(item.href)}>
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
+      <div class="header-brand-row">
+        <a class="brand" href={withBase(getRoute("home", locale))} aria-label={locale === "zh" ? "返回首页" : "Return to home"}>
+          <span class:list={["brand-mark", { "brand-mark-en": locale === "en" }]}>{locale === "zh" ? "龚" : "CG"}</span>
+          <span>
+            <strong>{profile.name}</strong>
+            <small>{locale === "zh" ? `${profile.englishName} · ${profile.affiliation}` : profile.affiliation}</small>
+          </span>
+        </a>
+        <a
+          class="language-switch language-switch-mobile"
+          href={withBase(getRoute(pageKey, alternateLocale))}
+          aria-label={languageSwitchAria}
+          lang={alternateLocale === "zh" ? "zh-CN" : "en"}
+        >
+          <Languages size={16} aria-hidden="true" />
+          <span>{languageSwitchLabel}</span>
+        </a>
+      </div>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label={locale === "zh" ? "主导航" : "Primary navigation"}>
+          {
+            navigation.map((item) => (
+              <a
+                class={isActivePath(pathname, item.href) ? "active" : ""}
+                href={withBase(item.href)}
+                aria-current={isActivePath(pathname, item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+        <a
+          class="language-switch language-switch-desktop"
+          href={withBase(getRoute(pageKey, alternateLocale))}
+          aria-label={languageSwitchAria}
+          lang={alternateLocale === "zh" ? "zh-CN" : "en"}
+        >
+          <Languages size={16} aria-hidden="true" />
+          <span>{languageSwitchLabel}</span>
+        </a>
+      </div>
     </header>
     <main>
       <slot />
     </main>
     <footer class="site-footer">
-      <p>© {new Date().getFullYear()} {profile.name}。个人学术主页，持续更新中。</p>
+      <p>{locale === "zh"
+        ? `© ${new Date().getFullYear()} ${profile.name}。个人学术主页，持续更新中。`
+        : `© ${new Date().getFullYear()} ${profile.name}. Academic homepage. Content is updated regularly.`}</p>
     </footer>
   </body>
 </html>

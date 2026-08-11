@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import { Award, ExternalLink } from "lucide-astro";
+import Layout from "@layouts/Layout.astro";
+import { certificates } from "@data/certificates";
+import { awards, honors } from "@data/cv";
+import { getRoute, localize } from "@data/i18n";
+import { withBase } from "@utils/paths";
+---
+
+<Layout
+  locale="en"
+  pageKey="honors"
+  title="Honors | Chengxu Gong"
+  description="Selected competition awards, honors, and certificates of Chengxu Gong."
+>
+  <section class="page-title">
+    <p class="section-kicker">Honors</p>
+    <h1>Selected Awards and Certificates</h1>
+    <p>
+      This page presents selected evidence of work in algorithms, modeling, electronic design, and system implementation. Certificate images are provided in Chinese.
+    </p>
+    <div class="action-row">
+      <a class="button primary" href={withBase(getRoute("cv", "en"))}>Return to CV <ExternalLink size={17} /></a>
+      <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>Download CV (Chinese PDF)</a>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-title-row">
+      <div>
+        <p class="section-kicker">Certificate Wall</p>
+        <h2>Representative certificates in algorithms, modeling, electronic design, and instrumentation</h2>
+      </div>
+      <span class="subtle-note">{certificates.length} selected certificates</span>
+    </div>
+    <div class="certificate-grid">
+      {
+        certificates.map((certificate) => (
+          <article class="certificate-card">
+            <div class="certificate-media">
+              <Image src={certificate.image} alt={localize(certificate.alt, "en")} loading="lazy" />
+            </div>
+            <div class="certificate-body">
+              <span>{certificate.year} · {localize(certificate.category, "en")}</span>
+              <h3>{localize(certificate.title, "en")}</h3>
+              <p>{localize(certificate.level, "en")}</p>
+              {certificate.note && <small>{localize(certificate.note, "en")}</small>}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title">
+        <h2>Competition Awards</h2>
+        <p>The list provides the broader award record; the certificate wall shows a selected visual subset.</p>
+      </div>
+      <div class="award-list">
+        {
+          awards.map((award) => (
+            <article>
+              <span>{typeof award.year === "string" ? award.year : localize(award.year, "en")}</span>
+              <h3>{localize(award.title, "en")}</h3>
+              <p>{localize(award.detail, "en")}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div>
+      <div class="section-title">
+        <h2>Honors and Scholarships</h2>
+      </div>
+      <ul class="plain-list icon-list">
+        {honors.map((honor) => <li><Award size={16} /> <span>{localize(honor.text, "en")}</span></li>)}
+      </ul>
+    </div>
+  </section>
+</Layout>

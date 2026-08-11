@@ -1,36 +1,48 @@
 ---
 import type { Publication } from "@data/publications";
+import type { Locale } from "@data/i18n";
+import {
+  localize,
+  publicationRoleLabels,
+  publicationStatusLabels,
+  publicationZoneLabels
+} from "@data/i18n";
 
 interface Props {
   publication: Publication;
   index?: number;
+  locale?: Locale;
 }
 
-const { publication, index } = Astro.props;
+const { publication, index, locale = "zh" } = Astro.props;
 const doiUrl = publication.doi ? `https://doi.org/${publication.doi}` : undefined;
+const labels = locale === "zh" ? { authors: "作者", venue: "期刊" } : { authors: "Authors", venue: "Journal" };
 ---
 
 <article class="publication-item">
   <div class="publication-index">{index ? String(index).padStart(2, "0") : publication.year}</div>
   <div class="publication-body">
-    <h3>{publication.title}</h3>
-    <p class="authors">作者：{publication.authors}</p>
-    <p class="venue">期刊：{publication.venue} · {publication.year}</p>
+    <h3>
+      {localize(publication.title, locale)}
+      {locale === "en" && publication.articleLanguage === "zh" && <small class="article-language">Article in Chinese</small>}
+    </h3>
+    <p class="authors">{labels.authors}: {publication.authors}</p>
+    <p class="venue">{labels.venue}: {publication.venue} · {publication.year}</p>
     <div class="meta-line">
-      <span>{publication.role}</span>
-      {publication.status && <span>{publication.status}</span>}
+      <span>{publicationRoleLabels[locale][publication.role]}</span>
+      {publication.status && <span>{publicationStatusLabels[locale][publication.status]}</span>}
       {publication.impact && <span>{publication.impact}</span>}
-      {publication.zone && <span>{publication.zone}</span>}
+      {publication.zone && <span>{publicationZoneLabels[locale][publication.zone]}</span>}
     </div>
     {
       doiUrl && (
         <p class="doi-line">
-          DOI：<a href={doiUrl} target="_blank" rel="noreferrer">{publication.doi}</a>
+          {locale === "zh" ? "DOI：" : "DOI: "}<a href={doiUrl} target="_blank" rel="noreferrer">{publication.doi}</a>
         </p>
       )
     }
     <div class="tag-row">
-      {publication.tags.map((tag) => <span class="tag">{tag}</span>)}
+      {publication.tags[locale].map((tag) => <span class="tag">{tag}</span>)}
     </div>
   </div>
 </article>

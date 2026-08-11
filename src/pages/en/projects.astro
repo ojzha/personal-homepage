@@ -1,0 +1,26 @@
+---
+import Layout from "@layouts/Layout.astro";
+import ProjectCard from "@components/ProjectCard.astro";
+import { projects } from "@data/projects";
+---
+
+<Layout
+  locale="en"
+  pageKey="projects"
+  title="Research Projects | Chengxu Gong"
+  description="Research projects by Chengxu Gong in multimodal sensing, spectral reconstruction, transfer learning, and intelligent detection systems."
+>
+  <section class="page-title">
+    <p class="section-kicker">Research Projects</p>
+    <h1>From multimodal signals to intelligent detection systems</h1>
+    <p>
+      These projects cover spectral and dielectric data acquisition, deep-learning models, cross-domain transfer, portable sensing, and deployable software systems.
+    </p>
+  </section>
+
+  <section class="section-block">
+    <div class="project-list">
+      {projects.map((project) => <ProjectCard project={project} locale="en" />)}
+    </div>
+  </section>
+</Layout>

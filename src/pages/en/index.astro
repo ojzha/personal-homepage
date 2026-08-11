@@ -5,32 +5,29 @@ import Layout from "@layouts/Layout.astro";
 import PublicationCard from "@components/PublicationCard.astro";
 import ProjectCard from "@components/ProjectCard.astro";
 import { getProfile } from "@data/profile";
-import { getRoute } from "@data/i18n";
 import { publications } from "@data/publications";
 import { projects } from "@data/projects";
+import { getRoute } from "@data/i18n";
 import { withBase } from "@utils/paths";
-import portraitImage from "../assets/images/profile/portrait.webp";
+import portraitImage from "../../assets/images/profile/portrait.webp";
 
+const profile = getProfile("en");
 const featuredPublications = publications.filter((publication) => publication.featured).slice(0, 4);
 const featuredProjects = projects.filter((project) => project.featured).slice(0, 2);
-const profile = getProfile("zh");
 ---
 
-<Layout locale="zh" pageKey="home">
+<Layout locale="en" pageKey="home" title="Chengxu Gong | Academic Homepage" description={profile.summary}>
   <section class="home-intro">
     <div class="profile-panel">
-      <p class="section-kicker home-affiliation-line">
-        {profile.affiliation}（教育部直属，国家“985工程”“211工程”和“双一流”建设高校） · {profile.degree}
-      </p>
+      <p class="section-kicker home-affiliation-line">{profile.affiliation} · {profile.degree}</p>
       <h1>{profile.name}</h1>
-      <p class="english-name">{profile.englishName}</p>
       <p class="tagline">{profile.tagline}</p>
       <p class="summary">{profile.summary}</p>
       <div class="action-row">
-        <a class="button primary" href={withBase(getRoute("publications", "zh"))}>查看论文成果 <ArrowRight size={17} /></a>
-        <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>下载个人简历 PDF <Download size={17} /></a>
+        <a class="button primary" href={withBase(getRoute("publications", "en"))}>View Publications <ArrowRight size={17} /></a>
+        <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>Download CV (Chinese PDF) <Download size={17} /></a>
       </div>
-      <div class="profile-links" aria-label="公开学术链接">
+      <div class="profile-links" aria-label="Academic profiles">
         {
           profile.links.map((link) => (
             <a href={link.href} target="_blank" rel="noreferrer">
@@ -43,7 +40,7 @@ const profile = getProfile("zh");
 
     <aside class="overview-panel portrait-panel">
       <div class="portrait-frame">
-        <Image src={portraitImage} alt="龚城圩个人头像" loading="eager" />
+        <Image src={portraitImage} alt="Portrait of Chengxu Gong" loading="eager" />
       </div>
       <div class="stats-compact">
         {profile.stats.map((item) => <div><strong>{item.value}</strong><span>{item.label}</span></div>)}
@@ -53,47 +50,41 @@ const profile = getProfile("zh");
 
   <section class="section-block">
     <div class="section-title">
-      <p class="section-kicker">研究方向</p>
-      <h2>围绕复杂样本智能检测，连接传感、建模与系统实现。</h2>
+      <p class="section-kicker">Research Focus</p>
+      <h2>Connecting sensing, intelligent modeling, and deployable systems.</h2>
       <p>{profile.focus}</p>
     </div>
     <div class="keyword-grid">
       {profile.researchKeywords.map((keyword) => <span>{keyword}</span>)}
     </div>
     <div class="info-grid">
-      {profile.publicInfo.map((item) => (
-        <div>
-          <span>{item.label}</span>
-          <strong>{item.value}</strong>
-        </div>
-      ))}
+      {profile.publicInfo.map((item) => <div><span>{item.label}</span><strong>{item.value}</strong></div>)}
     </div>
   </section>
 
   <section class="section-block">
     <div class="section-title-row">
       <div>
-        <p class="section-kicker">代表论文</p>
-        <h2>第一作者与高影响力合作成果</h2>
+        <p class="section-kicker">Selected Publications</p>
+        <h2>First-author work and high-impact collaborations</h2>
       </div>
-      <a class="text-link" href={withBase(getRoute("publications", "zh"))}>全部论文 <ArrowRight size={16} /></a>
+      <a class="text-link" href={withBase(getRoute("publications", "en"))}>All Publications <ArrowRight size={16} /></a>
     </div>
     <div class="publication-list compact-list">
-      {featuredPublications.map((publication, index) => <PublicationCard publication={publication} index={index + 1} />)}
+      {featuredPublications.map((publication, index) => <PublicationCard publication={publication} index={index + 1} locale="en" />)}
     </div>
   </section>
 
   <section class="section-block">
     <div class="section-title-row">
       <div>
-        <p class="section-kicker">科研项目</p>
-        <h2>从传感数据到检测系统</h2>
+        <p class="section-kicker">Research Projects</p>
+        <h2>From multimodal signals to intelligent detection systems</h2>
       </div>
-      <a class="text-link" href={withBase(getRoute("projects", "zh"))}>全部项目 <ArrowRight size={16} /></a>
+      <a class="text-link" href={withBase(getRoute("projects", "en"))}>All Projects <ArrowRight size={16} /></a>
     </div>
     <div class="project-list">
-      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+      {featuredProjects.map((project) => <ProjectCard project={project} locale="en" />)}
     </div>
   </section>
-
 </Layout>

@@ -1,0 +1,147 @@
+---
+import { Download, ExternalLink } from "lucide-astro";
+import Layout from "@layouts/Layout.astro";
+import { getProfile } from "@data/profile";
+import { awards, education, honors, patents, skills, softwareCopyrights } from "@data/cv";
+import { getRoute, localize } from "@data/i18n";
+import { withBase } from "@utils/paths";
+
+const profile = getProfile("en");
+---
+
+<Layout locale="en" pageKey="cv" title="CV | Chengxu Gong" description="Academic CV summary of Chengxu Gong.">
+  <section class="page-title">
+    <p class="section-kicker">CV</p>
+    <h1>Curriculum Vitae</h1>
+    <p>
+      This page contains a public academic summary. The downloadable PDF is currently available in Chinese.
+    </p>
+    <div class="action-row">
+      <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>Download CV (Chinese PDF) <Download size={17} /></a>
+      <a class="button primary" href={withBase(getRoute("publications", "en"))}>View Full Publication List <ExternalLink size={17} /></a>
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title"><h2>Education</h2></div>
+      <div class="education-list">
+        {
+          education.map((item) => (
+            <article>
+              <span>{localize(item.period, "en")}</span>
+              <h3>{localize(item.school, "en")} · {localize(item.degree, "en")}</h3>
+              <p>{localize(item.major, "en")} · {localize(item.detail, "en")}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div>
+      <div class="section-title">
+        <h2>Research Profile</h2>
+        <p>{profile.summary}</p>
+      </div>
+      <div class="info-grid compact">
+        {profile.publicInfo.map((item) => <div><span>{item.label}</span><strong>{item.value}</strong></div>)}
+      </div>
+      <div class="profile-links compact" aria-label="Academic profiles">
+        {
+          profile.links.map((link) => (
+            <a href={link.href} target="_blank" rel="noreferrer">
+              {link.label} <ExternalLink size={15} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-title"><h2>Publication Metrics</h2></div>
+    <div class="stats-compact horizontal">
+      {profile.stats.map((item) => <div><strong>{item.value}</strong><span>{item.label}</span></div>)}
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title">
+        <h2>Patents</h2>
+        <p>Granted utility model patents in portable sensing and in-situ instrumentation.</p>
+      </div>
+      <div class="timeline-list">
+        {
+          patents.map((item) => (
+            <article>
+              <span>{item.year}</span>
+              <h3>{localize(item.title, "en")}</h3>
+              <p>{localize(item.type, "en")} · {localize(item.role, "en")}</p>
+              <small>{item.number}</small>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div>
+      <div class="section-title">
+        <h2>Software Copyrights</h2>
+        <p>Registered software covering sensing, recognition, analysis, and result visualization.</p>
+      </div>
+      <div class="timeline-list">
+        {
+          softwareCopyrights.map((item) => (
+            <article>
+              <span>{item.year}</span>
+              <h3>{localize(item.title, "en")}</h3>
+              {item.number && <small>{item.number}</small>}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-title-row">
+      <div>
+        <h2>Selected Awards</h2>
+        <p>Recognition in AI algorithms, mathematical modeling, programming, electronic design, and teamwork.</p>
+      </div>
+      <a class="text-link" href={withBase(getRoute("honors", "en"))}>View Certificate Wall <ExternalLink size={16} /></a>
+    </div>
+    <div class="award-list">
+      {
+        awards.map((award) => (
+          <article>
+            <span>{typeof award.year === "string" ? award.year : localize(award.year, "en")}</span>
+            <h3>{localize(award.title, "en")}</h3>
+            <p>{localize(award.detail, "en")}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-block two-column">
+    <div>
+      <div class="section-title"><h2>Honors and Scholarships</h2></div>
+      <ul class="plain-list">
+        {honors.map((honor) => <li>{localize(honor.text, "en")}</li>)}
+      </ul>
+    </div>
+    <div>
+      <div class="section-title"><h2>Research Skills</h2></div>
+      <div class="skill-list">
+        {
+          skills.map((skill) => (
+            <article>
+              <h3>{localize(skill.title, "en")}</h3>
+              <p>{localize(skill.description, "en")}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

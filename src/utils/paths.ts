@@ -10,6 +10,10 @@ export function withBase(path: string) {
   return `${normalizedBase}${normalizedPath}`;
 }
 
+export function toAbsoluteSiteUrl(path: string, site: URL | string) {
+  return new URL(withBase(path), site).toString();
+}
+
 export function isActivePath(currentPath: string, href: string) {
   const target = withBase(href);
   const normalizedCurrent = currentPath.endsWith("/") ? currentPath : `${currentPath}/`;

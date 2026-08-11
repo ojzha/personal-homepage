@@ -1,0 +1,44 @@
+---
+import Layout from "@layouts/Layout.astro";
+import PublicationCard from "@components/PublicationCard.astro";
+import { getPublicationCounts, getPublicationGroups } from "@data/publications";
+
+const counts = getPublicationCounts();
+const publicationGroups = getPublicationGroups("en");
+---
+
+<Layout
+  locale="en"
+  pageKey="publications"
+  title="Publications | Chengxu Gong"
+  description="Publications by Chengxu Gong in spectral sensing, dielectric measurement, transfer learning, and intelligent detection."
+>
+  <section class="page-title">
+    <p class="section-kicker">Publications</p>
+    <h1>Research in spectral sensing, dielectric measurement, transfer learning, and intelligent detection</h1>
+    <p>
+      {counts.total} publications: {counts.firstAuthor} first-author, {counts.secondAuthor} second-author, and {counts.collaborative} collaborative papers.
+    </p>
+    <div class="stats-compact horizontal">
+      <div><strong>{counts.firstAuthor}</strong><span>First-author Publications</span></div>
+      <div><strong>{counts.secondAuthor}</strong><span>Second-author Publications</span></div>
+      <div><strong>{counts.collaborative}</strong><span>Collaborative Publications</span></div>
+    </div>
+  </section>
+
+  {
+    publicationGroups.map((group) => (
+      <section class="section-block">
+        <div class="section-title">
+          <h2>{group.title}</h2>
+          <p>{group.description}</p>
+        </div>
+        <div class="publication-list">
+          {group.items.map((publication, index) => (
+            <PublicationCard publication={publication} index={index + 1} locale="en" />
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</Layout>

@@ -1,22 +1,23 @@
 ---
 import { Download, ExternalLink } from "lucide-astro";
 import Layout from "@layouts/Layout.astro";
-import { profile } from "@data/profile";
+import { getProfile } from "@data/profile";
 import {
   awards,
   education,
   honors,
   patents,
-  publicLinks,
-  publicInfo,
   skills,
   softwareCopyrights,
   traits
 } from "@data/cv";
+import { getRoute, localize } from "@data/i18n";
 import { withBase } from "@utils/paths";
+
+const profile = getProfile("zh");
 ---
 
-<Layout title="个人简历 | 龚城圩" description="龚城圩的个人简历摘要。">
+<Layout locale="zh" pageKey="cv" title="个人简历 | 龚城圩" description="龚城圩的个人简历摘要。">
   <section class="page-title">
     <p class="section-kicker">个人简历</p>
     <h1>简历摘要</h1>
@@ -25,7 +26,7 @@ import { withBase } from "@utils/paths";
     </p>
     <div class="action-row">
       <a class="button secondary" href={withBase("/files/GCX_resume_v5.pdf")}>下载个人简历 PDF <Download size={17} /></a>
-      <a class="button primary" href={withBase("/publications")}>查看完整论文列表 <ExternalLink size={17} /></a>
+      <a class="button primary" href={withBase(getRoute("publications", "zh"))}>查看完整论文列表 <ExternalLink size={17} /></a>
     </div>
   </section>
 
@@ -38,9 +39,9 @@ import { withBase } from "@utils/paths";
         {
           education.map((item) => (
             <article>
-              <span>{item.period}</span>
-              <h3>{item.school} · {item.degree}</h3>
-              <p>{item.major} · {item.detail}</p>
+              <span>{localize(item.period, "zh")}</span>
+              <h3>{localize(item.school, "zh")} · {localize(item.degree, "zh")}</h3>
+              <p>{localize(item.major, "zh")} · {localize(item.detail, "zh")}</p>
             </article>
           ))
         }
@@ -53,7 +54,7 @@ import { withBase } from "@utils/paths";
       </div>
       <div class="info-grid compact">
         {
-          publicInfo.map((item) => (
+          profile.publicInfo.map((item) => (
             <div>
               <span>{item.label}</span>
               <strong>{item.value}</strong>
@@ -63,7 +64,7 @@ import { withBase } from "@utils/paths";
       </div>
       <div class="profile-links compact" aria-label="公开学术链接">
         {
-          publicLinks.map((link) => (
+          profile.links.map((link) => (
             <a href={link.href} target="_blank" rel="noreferrer">
               {link.label} <ExternalLink size={15} />
             </a>
@@ -90,8 +91,8 @@ import { withBase } from "@utils/paths";
           patents.map((item) => (
             <article>
               <span>{item.year}</span>
-              <h3>{item.title}</h3>
-              <p>{item.type} · {item.role}</p>
+              <h3>{localize(item.title, "zh")}</h3>
+              <p>{localize(item.type, "zh")} · {localize(item.role, "zh")}</p>
               <small>{item.number}</small>
             </article>
           ))
@@ -108,7 +109,7 @@ import { withBase } from "@utils/paths";
           softwareCopyrights.map((item) => (
             <article>
               <span>{item.year}</span>
-              <h3>{item.title}</h3>
+              <h3>{localize(item.title, "zh")}</h3>
               {item.number && <small>{item.number}</small>}
             </article>
           ))
@@ -123,15 +124,15 @@ import { withBase } from "@utils/paths";
         <h2>竞赛获奖</h2>
         <p>主要体现算法应用、数学建模、编程能力和团队组织经历。</p>
       </div>
-      <a class="text-link" href={withBase("/honors")}>查看证书墙 <ExternalLink size={16} /></a>
+      <a class="text-link" href={withBase(getRoute("honors", "zh"))}>查看证书墙 <ExternalLink size={16} /></a>
     </div>
     <div class="award-list">
       {
         awards.map((award) => (
           <article>
-            <span>{award.year}</span>
-            <h3>{award.title}</h3>
-            <p>{award.detail}</p>
+            <span>{typeof award.year === "string" ? award.year : localize(award.year, "zh")}</span>
+            <h3>{localize(award.title, "zh")}</h3>
+            <p>{localize(award.detail, "zh")}</p>
           </article>
         ))
       }
@@ -144,7 +145,7 @@ import { withBase } from "@utils/paths";
         <h2>荣誉与奖学金</h2>
       </div>
       <ul class="plain-list">
-        {honors.map((honor) => <li>{honor}</li>)}
+        {honors.map((honor) => <li>{localize(honor.text, "zh")}</li>)}
       </ul>
     </div>
     <div>
@@ -155,8 +156,8 @@ import { withBase } from "@utils/paths";
         {
           skills.map((skill) => (
             <article>
-              <h3>{skill.title}</h3>
-              <p>{skill.description}</p>
+              <h3>{localize(skill.title, "zh")}</h3>
+              <p>{localize(skill.description, "zh")}</p>
             </article>
           ))
         }
@@ -172,8 +173,8 @@ import { withBase } from "@utils/paths";
       {
         traits.map((trait) => (
           <article>
-            <h3>{trait.title}</h3>
-            <p>{trait.description}</p>
+            <h3>{localize(trait.title, "zh")}</h3>
+            <p>{localize(trait.description, "zh")}</p>
           </article>
         ))
       }

@@ -36,6 +36,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Check bilingual site
+        run: npm run check:i18n
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

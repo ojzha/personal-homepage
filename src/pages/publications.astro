@@ -1,24 +1,23 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import PublicationCard from "@components/PublicationCard.astro";
-import { publicationGroups, publications } from "@data/publications";
+import { getPublicationCounts, getPublicationGroups } from "@data/publications";
 
-const firstAuthorCount = publications.filter((publication) => publication.group === "第一作者论文").length;
-const secondAuthorCount = publications.filter((publication) => publication.group === "第二作者论文").length;
-const otherCount = publications.filter((publication) => publication.group === "合作论文").length;
+const counts = getPublicationCounts();
+const publicationGroups = getPublicationGroups("zh");
 ---
 
-<Layout title="论文成果 | 龚城圩" description="龚城圩的论文成果列表。">
+<Layout locale="zh" pageKey="publications" title="论文成果 | 龚城圩" description="龚城圩的论文成果列表。">
   <section class="page-title">
     <p class="section-kicker">论文成果</p>
     <h1>围绕光谱感知、介电测量、迁移学习与智能检测的论文成果</h1>
     <p>
-      目前整理论文 14 篇，其中第一作者论文 {firstAuthorCount} 篇、第二作者论文 {secondAuthorCount} 篇、合作论文 {otherCount} 篇。
+      目前整理论文 {counts.total} 篇，其中第一作者论文 {counts.firstAuthor} 篇、第二作者论文 {counts.secondAuthor} 篇、合作论文 {counts.collaborative} 篇。
     </p>
     <div class="stats-compact horizontal">
-      <div><strong>{firstAuthorCount}</strong><span>第一作者论文</span></div>
-      <div><strong>{secondAuthorCount}</strong><span>第二作者论文</span></div>
-      <div><strong>{otherCount}</strong><span>合作论文</span></div>
+      <div><strong>{counts.firstAuthor}</strong><span>第一作者论文</span></div>
+      <div><strong>{counts.secondAuthor}</strong><span>第二作者论文</span></div>
+      <div><strong>{counts.collaborative}</strong><span>合作论文</span></div>
     </div>
   </section>
 

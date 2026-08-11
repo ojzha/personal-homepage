@@ -1,34 +1,41 @@
 ---
 import type { Project } from "@data/projects";
+import type { Locale } from "@data/i18n";
+import { localize } from "@data/i18n";
 
 interface Props {
   project: Project;
+  locale?: Locale;
 }
 
-const { project } = Astro.props;
+const { project, locale = "zh" } = Astro.props;
+const labels =
+  locale === "zh"
+    ? { methods: "负责内容与方法", outputs: "产出与支撑" }
+    : { methods: "Responsibilities and Methods", outputs: "Outputs and Contributions" };
 ---
 
 <article class="project-item">
   <div class="project-head">
-    <span>{project.role}</span>
-    <h3>{project.title}</h3>
-    <p>{project.subtitle}</p>
+    <span>{localize(project.role, locale)}</span>
+    <h3>{localize(project.title, locale)}</h3>
+    <p>{localize(project.subtitle, locale)}</p>
   </div>
-  <p class="project-description">{project.description}</p>
+  <p class="project-description">{localize(project.description, locale)}</p>
   <div class="project-columns">
     <div>
-      <strong>负责内容与方法</strong>
+      <strong>{labels.methods}</strong>
       <ul>
-        {project.methods.map((method) => <li>{method}</li>)}
+        {project.methods[locale].map((method) => <li>{method}</li>)}
       </ul>
     </div>
     <div>
-      <strong>产出与支撑</strong>
+      <strong>{labels.outputs}</strong>
       <ul>
-        {project.outputs.map((output) => <li>{output}</li>)}
+        {project.outputs[locale].map((output) => <li>{output}</li>)}
       </ul>
       <div class="tag-row">
-        {project.tags.map((tag) => <span class="tag">{tag}</span>)}
+        {project.tags[locale].map((tag) => <span class="tag">{tag}</span>)}
       </div>
     </div>
   </div>
