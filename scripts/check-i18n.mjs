@@ -44,6 +44,15 @@ function assertUnique(ids, label, expectedCount) {
   assert.equal(new Set(ids).size, ids.length, `${label} IDs must be unique`);
 }
 
+function getPublicationCard(html, title, route) {
+  const cards = [...html.matchAll(/<article class="publication-item">([\s\S]*?)<\/article>/g)].map(
+    (match) => match[0]
+  );
+  const card = cards.find((item) => item.includes(title));
+  assert.ok(card, `Missing publication card on ${route}: ${title}`);
+  return card;
+}
+
 const expectedUrls = [];
 
 for (const [pageKey, routePair] of Object.entries(pages)) {
@@ -104,6 +113,26 @@ assert.equal((publicationSource.match(/export const publications/g) ?? []).lengt
 assert.equal((publicationSource.match(/group: "firstAuthor"/g) ?? []).length, 4, "First-author count should be 4");
 assert.equal((publicationSource.match(/group: "secondAuthor"/g) ?? []).length, 5, "Second-author count should be 5");
 assert.equal((publicationSource.match(/group: "collaborative"/g) ?? []).length, 5, "Collaborative count should be 5");
+
+const soilPublicationTitle =
+  "Improving cross-domain spectroscopic measurement of soil organic matter using transfer learning for orchard soils in northern China";
+const soilPublicationSource = publicationSource.match(
+  /id: "pub-soil-organic-matter-transfer-learning",[\s\S]*?featured: true/
+)?.[0];
+assert.ok(soilPublicationSource, "Missing soil organic matter publication source record");
+assert.match(soilPublicationSource, /status: "majorRevision"/, "Soil publication should be in major revision");
+assert.ok(!soilPublicationSource.includes("doi:"), "Soil publication should not have a DOI yet");
+
+for (const [route, expectedStatus, previousStatus] of [
+  [pages.home.zh, "大修", "在审"],
+  [pages.publications.zh, "大修", "在审"],
+  [pages.publications.en, "Major Revision", "Under Review"]
+]) {
+  const card = getPublicationCard(read(toOutputPath(route)), soilPublicationTitle, route);
+  assert.ok(card.includes(expectedStatus), `Wrong soil publication status on ${route}`);
+  assert.ok(!card.includes(previousStatus), `Stale soil publication status on ${route}`);
+  assert.ok(!card.includes('class="doi-line"'), `Soil publication should not render a DOI on ${route}`);
+}
 
 const sourceFiles = [
   "src/layouts/Layout.astro",

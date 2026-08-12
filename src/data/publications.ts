@@ -98,7 +98,7 @@ export const publications: Publication[] = [
     venue: "Engineering Research Express",
     role: "firstAuthor",
     group: "firstAuthor",
-    status: "underReview",
+    status: "majorRevision",
     impact: "IF 1.8",
     tags: {
       zh: ["迁移学习", "光谱测量", "跨域建模"],
