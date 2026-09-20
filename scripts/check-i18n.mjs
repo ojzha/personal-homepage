@@ -120,17 +120,19 @@ const soilPublicationSource = publicationSource.match(
   /id: "pub-soil-organic-matter-transfer-learning",[\s\S]*?featured: true/
 )?.[0];
 assert.ok(soilPublicationSource, "Missing soil organic matter publication source record");
-assert.match(soilPublicationSource, /status: "majorRevision"/, "Soil publication should be in major revision");
+assert.match(soilPublicationSource, /status: "accepted"/, "Soil publication should be accepted");
 assert.ok(!soilPublicationSource.includes("doi:"), "Soil publication should not have a DOI yet");
 
-for (const [route, expectedStatus, previousStatus] of [
-  [pages.home.zh, "大修", "在审"],
-  [pages.publications.zh, "大修", "在审"],
-  [pages.publications.en, "Major Revision", "Under Review"]
+for (const [route, expectedStatus, staleStatuses] of [
+  [pages.home.zh, "已录用", ["大修", "在审"]],
+  [pages.publications.zh, "已录用", ["大修", "在审"]],
+  [pages.publications.en, "Accepted", ["Major Revision", "Under Review"]]
 ]) {
   const card = getPublicationCard(read(toOutputPath(route)), soilPublicationTitle, route);
   assert.ok(card.includes(expectedStatus), `Wrong soil publication status on ${route}`);
-  assert.ok(!card.includes(previousStatus), `Stale soil publication status on ${route}`);
+  for (const staleStatus of staleStatuses) {
+    assert.ok(!card.includes(staleStatus), `Stale soil publication status on ${route}: ${staleStatus}`);
+  }
   assert.ok(!card.includes('class="doi-line"'), `Soil publication should not render a DOI on ${route}`);
 }
 

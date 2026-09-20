@@ -15,7 +15,7 @@ export type PublicationRoleKey =
 
 export type PublicationGroupKey = "firstAuthor" | "secondAuthor" | "collaborative";
 
-export type PublicationStatusKey = "underReview" | "majorRevision";
+export type PublicationStatusKey = "underReview" | "majorRevision" | "accepted";
 
 export type PublicationZoneKey = "casQ1Top" | "casQ2Top" | "casQ2" | "eiIndexed";
 
@@ -96,11 +96,13 @@ export const publicationGroupDescriptions: Record<Locale, Record<PublicationGrou
 export const publicationStatusLabels: Record<Locale, Record<PublicationStatusKey, string>> = {
   zh: {
     underReview: "在审",
-    majorRevision: "大修"
+    majorRevision: "大修",
+    accepted: "已录用"
   },
   en: {
     underReview: "Under Review",
-    majorRevision: "Major Revision"
+    majorRevision: "Major Revision",
+    accepted: "Accepted"
   }
 };
 
