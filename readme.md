@@ -42,7 +42,7 @@ npm run preview
 - 更新事实信息时不要创建独立的英文成果数组，避免 DOI、年份、状态和数量不一致。
 - 中文页面位于 `src/pages/`，对应英文页面位于 `src/pages/en/`。
 - 所有站内链接必须使用 `withBase()`，不要手写 `/personal-homepage/` 前缀。
-- 当前中英文 CV 按钮都指向 `public/files/GCX_resume_v5.pdf`；英文按钮必须标注 `Download CV (Chinese PDF)`。
+- 当前中英文 CV 按钮都指向 `public/files/GCX_resume_v6.pdf`；英文按钮必须标注 `Download CV (Chinese PDF)`。
 - 后续英文 PDF 使用独立文件 `public/files/Chengxu_Gong_CV_EN.pdf`，不要覆盖中文 PDF。
 
 `npm run check:i18n` 会检查 10 个路由、共享数据数量、稳定 ID、GitHub Pages base、canonical/hreflang、sitemap 和英文 CV 下载链接。

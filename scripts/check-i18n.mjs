@@ -120,20 +120,29 @@ const soilPublicationSource = publicationSource.match(
   /id: "pub-soil-organic-matter-transfer-learning",[\s\S]*?featured: true/
 )?.[0];
 assert.ok(soilPublicationSource, "Missing soil organic matter publication source record");
-assert.match(soilPublicationSource, /status: "accepted"/, "Soil publication should be accepted");
-assert.ok(!soilPublicationSource.includes("doi:"), "Soil publication should not have a DOI yet");
+const soilPublicationDoi = "10.1088/2631-8695/aea962";
+assert.ok(!soilPublicationSource.includes("status:"), "Published soil publication should not render a status label");
+assert.match(
+  soilPublicationSource,
+  new RegExp(`doi: "${soilPublicationDoi.replaceAll(".", "\\.")}"`),
+  "Soil publication DOI is missing or incorrect"
+);
 
-for (const [route, expectedStatus, staleStatuses] of [
-  [pages.home.zh, "已录用", ["大修", "在审"]],
-  [pages.publications.zh, "已录用", ["大修", "在审"]],
-  [pages.publications.en, "Accepted", ["Major Revision", "Under Review"]]
+for (const [route, staleStatuses] of [
+  [pages.home.zh, ["已录用", "大修", "在审", "已发表"]],
+  [pages.publications.zh, ["已录用", "大修", "在审", "已发表"]],
+  [pages.publications.en, ["Accepted", "Major Revision", "Under Review", "Published"]]
 ]) {
   const card = getPublicationCard(read(toOutputPath(route)), soilPublicationTitle, route);
-  assert.ok(card.includes(expectedStatus), `Wrong soil publication status on ${route}`);
   for (const staleStatus of staleStatuses) {
     assert.ok(!card.includes(staleStatus), `Stale soil publication status on ${route}: ${staleStatus}`);
   }
-  assert.ok(!card.includes('class="doi-line"'), `Soil publication should not render a DOI on ${route}`);
+  assert.ok(card.includes('class="doi-line"'), `Soil publication DOI is missing on ${route}`);
+  assert.ok(
+    card.includes(`href="https://doi.org/${soilPublicationDoi}"`),
+    `Wrong soil publication DOI link on ${route}`
+  );
+  assert.ok(card.includes(`>${soilPublicationDoi}</a>`), `Wrong soil publication DOI text on ${route}`);
 }
 
 const sourceFiles = [
@@ -167,10 +176,11 @@ for (const route of [pages.home.en, pages.honors.en, pages.cv.en]) {
   const pdfLinks = [...html.matchAll(/<a[^>]+href="([^"]+\.pdf)"[^>]*>([\s\S]*?)<\/a>/g)];
   assert.ok(pdfLinks.length > 0, `Missing English CV download link on ${route}`);
   for (const [, href, content] of pdfLinks) {
-    assert.equal(href, `${base}files/GCX_resume_v5.pdf`, `Wrong English CV PDF on ${route}`);
+    assert.equal(href, `${base}files/GCX_resume_v6.pdf`, `Wrong English CV PDF on ${route}`);
     assert.match(content, /Download CV \(Chinese PDF\)/, `English PDF label is unclear on ${route}`);
   }
 }
+assert.ok(existsSync(join(root, "dist/files/GCX_resume_v6.pdf")), "Current v6 CV PDF is missing from the build");
 
 const englishHome = read(toOutputPath(pages.home.en));
 const compactPublicationMatches = englishHome.match(/<article class="en-home-publication"/g) ?? [];

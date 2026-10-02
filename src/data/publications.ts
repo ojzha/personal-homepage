@@ -98,8 +98,8 @@ export const publications: Publication[] = [
     venue: "Engineering Research Express",
     role: "firstAuthor",
     group: "firstAuthor",
-    status: "accepted",
     impact: "IF 1.8",
+    doi: "10.1088/2631-8695/aea962",
     tags: {
       zh: ["迁移学习", "光谱测量", "跨域建模"],
       en: ["Transfer Learning", "Spectroscopic Measurement", "Cross-domain Modeling"]
