@@ -158,10 +158,24 @@ export const awards = [
 
 export const honors = [
   {
+    id: "honor-graduate-national-scholarship",
+    text: {
+      zh: "硕士期间获得国家奖学金 1 次",
+      en: "National Scholarship, once during master's study"
+    }
+  },
+  {
+    id: "honor-graduate-first-class-scholarship",
+    text: {
+      zh: "硕士期间获得专业一等奖学金 3 次",
+      en: "First-class Academic Scholarship, three times during master's study"
+    }
+  },
+  {
     id: "honor-undergraduate-first-class-scholarship",
     text: {
-      zh: "本科期间获得专业一等奖学金 3 次",
-      en: "First-class Academic Scholarship, three times during undergraduate study"
+      zh: "本科期间获得专业一等奖学金 4 次",
+      en: "First-class Academic Scholarship, four times during undergraduate study"
     }
   },
   {
@@ -169,13 +183,6 @@ export const honors = [
     text: {
       zh: "本科期间获得国家励志奖学金 2 次",
       en: "National Encouragement Scholarship, twice during undergraduate study"
-    }
-  },
-  {
-    id: "honor-graduate-first-class-scholarship",
-    text: {
-      zh: "研究生期间获得专业一等奖学金 2 次",
-      en: "First-class Academic Scholarship, twice during graduate study"
     }
   },
   {

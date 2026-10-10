@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -107,6 +108,52 @@ assertUnique(getPrefixedIds("src/data/certificates.ts", "certificate-"), "Certif
 assertUnique(getPrefixedIds("src/data/cv.ts", "patent-"), "Patent", 2);
 assertUnique(getPrefixedIds("src/data/cv.ts", "copyright-"), "Software copyright", 4);
 assertUnique(getPrefixedIds("src/data/cv.ts", "award-"), "Award", 5);
+const honorIds = getPrefixedIds("src/data/cv.ts", "honor-");
+assertUnique(honorIds, "Honor", 5);
+assert.deepEqual(honorIds, [
+  "honor-graduate-national-scholarship",
+  "honor-graduate-first-class-scholarship",
+  "honor-undergraduate-first-class-scholarship",
+  "honor-national-inspirational-scholarship",
+  "honor-student-and-volunteer-titles"
+], "Scholarships should precede other honors, with the graduate National Scholarship first");
+
+const honorTexts = {
+  zh: [
+    "硕士期间获得国家奖学金 1 次",
+    "硕士期间获得专业一等奖学金 3 次",
+    "本科期间获得专业一等奖学金 4 次",
+    "本科期间获得国家励志奖学金 2 次",
+    "曾获优秀大学生、优秀共青团员、校级优秀抗疫志愿者等称号"
+  ],
+  en: [
+    "National Scholarship, once during master's study",
+    "First-class Academic Scholarship, three times during master's study",
+    "First-class Academic Scholarship, four times during undergraduate study",
+    "National Encouragement Scholarship, twice during undergraduate study",
+    "University honors for academic performance, student service, and volunteer work"
+  ]
+};
+
+for (const locale of ["zh", "en"]) {
+  const heading = locale === "zh" ? "荣誉与奖学金" : "Honors and Scholarships";
+  for (const route of [pages.cv[locale], pages.honors[locale]]) {
+    const html = read(toOutputPath(route)).replaceAll("&#39;", "'");
+    const honorList = html.match(new RegExp(`<h2>${heading}</h2>[\\s\\S]*?<ul\\b[^>]*>([\\s\\S]*?)</ul>`))?.[1];
+    assert.ok(honorList, `Missing honors and scholarships list on ${route}`);
+    const items = [...honorList.matchAll(/<li(?:\s[^>]*)?>([\s\S]*?)<\/li>/g)].map((match) => match[1]);
+    assert.equal(items.length, honorTexts[locale].length, `Wrong honor count on ${route}`);
+    for (const [index, text] of honorTexts[locale].entries()) {
+      assert.ok(items[index].includes(text), `Missing or incorrectly ordered honor on ${route}: ${text}`);
+      assert.equal(honorList.split(text).length - 1, 1, `Honor should appear once on ${route}: ${text}`);
+    }
+  }
+  assert.ok(
+    !read(toOutputPath(pages.home[locale])).includes("National Scholarship") &&
+      !read(toOutputPath(pages.home[locale])).includes("国家奖学金"),
+    `National Scholarship should remain on detail pages, not the ${locale} home`
+  );
+}
 
 const publicationSource = read(join(root, "src/data/publications.ts"));
 assert.equal((publicationSource.match(/export const publications/g) ?? []).length, 1, "Publication facts must have one source array");
@@ -181,6 +228,17 @@ for (const route of [pages.home.en, pages.honors.en, pages.cv.en]) {
   }
 }
 assert.ok(existsSync(join(root, "dist/files/GCX_resume_v6.pdf")), "Current v6 CV PDF is missing from the build");
+const publicCv = readFileSync(join(root, "public/files/GCX_resume_v6.pdf"));
+const builtCv = readFileSync(join(root, "dist/files/GCX_resume_v6.pdf"));
+assert.equal(builtCv.length, publicCv.length, "Built CV PDF size differs from the public copy");
+assert.equal(
+  createHash("sha256").update(builtCv).digest("hex"),
+  createHash("sha256").update(publicCv).digest("hex"),
+  "Built CV PDF content differs from the public copy"
+);
+for (const version of ["v4", "v5"]) {
+  assert.ok(existsSync(join(root, `dist/files/GCX_resume_${version}.pdf`)), `Historical ${version} CV PDF is missing`);
+}
 
 const englishHome = read(toOutputPath(pages.home.en));
 const compactPublicationMatches = englishHome.match(/<article class="en-home-publication"/g) ?? [];
@@ -230,4 +288,4 @@ for (const route of Object.values(pages).map((pair) => pair.en)) {
   assert.ok(!html.includes("Double First-Class"), `English page should not explain Chinese university designations: ${route}`);
 }
 
-console.log("Bilingual site checks passed: 10 routes, shared facts, simplified English home, SEO pairs, sitemap, and CV links.");
+console.log("Bilingual site checks passed: 10 routes, shared facts, scholarships, simplified English home, SEO pairs, sitemap, and CV files.");
