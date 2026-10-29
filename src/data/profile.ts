@@ -19,7 +19,7 @@ const profileContent = {
       "西北农林科技大学硕士研究生，研究经历集中在多源传感数据建模、生成式光谱重建、跨品种/跨设备模型迁移和检测软件系统实现。",
     location: "陕西杨凌",
     affiliation: "西北农林科技大学",
-    degree: "硕士研究生",
+    degree: "电子信息专业硕士研究生",
     languages: profileFacts.languageScore,
     researchKeywords: [
       "多源感知",
@@ -46,7 +46,7 @@ const profileContent = {
       "I am a master's student at Northwest A&F University. My research focuses on multimodal sensing, generative spectral reconstruction, cross-cultivar and cross-instrument model transfer, and end-to-end intelligent detection systems.",
     location: "Yangling, Shaanxi, China",
     affiliation: "Northwest A&F University",
-    degree: "Master's Student",
+    degree: "Master's Student in Electronic Information",
     languages: "CET-6 (500+)",
     researchKeywords: [
       "Multimodal Sensing",
