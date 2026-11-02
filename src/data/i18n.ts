@@ -17,7 +17,7 @@ export type PublicationGroupKey = "firstAuthor" | "secondAuthor" | "collaborativ
 
 export type PublicationStatusKey = "underReview" | "majorRevision" | "accepted";
 
-export type PublicationZoneKey = "casQ1Top" | "casQ2Top" | "casQ2" | "eiIndexed";
+export type PublicationZoneKey = "casQ1Top" | "casQ2Top" | "casQ2" | "jcrQ2" | "eiIndexed";
 
 export const routes: Record<PageKey, Record<Locale, string>> = {
   home: { zh: "/", en: "/en/" },
@@ -111,12 +111,14 @@ export const publicationZoneLabels: Record<Locale, Record<PublicationZoneKey, st
     casQ1Top: "中科院 1 区 TOP",
     casQ2Top: "中科院 2 区 TOP",
     casQ2: "中科院 2 区",
+    jcrQ2: "JCR Q2",
     eiIndexed: "EI 收录"
   },
   en: {
     casQ1Top: "CAS Q1 TOP",
     casQ2Top: "CAS Q2 TOP",
     casQ2: "CAS Q2",
+    jcrQ2: "JCR Q2",
     eiIndexed: "EI Indexed"
   }
 };

@@ -99,6 +99,7 @@ export const publications: Publication[] = [
     role: "firstAuthor",
     group: "firstAuthor",
     impact: "IF 1.8",
+    zone: "jcrQ2",
     doi: "10.1088/2631-8695/aea962",
     tags: {
       zh: ["迁移学习", "光谱测量", "跨域建模"],
