@@ -17,6 +17,7 @@ interface Props {
 const { publication, index, locale = "zh" } = Astro.props;
 const doiUrl = publication.doi ? `https://doi.org/${publication.doi}` : undefined;
 const labels = locale === "zh" ? { authors: "作者", venue: "期刊" } : { authors: "Authors", venue: "Journal" };
+const authorParts = publication.authors.split(/(Chengxu Gong|龚城圩)/);
 ---
 
 <article class="publication-item">
@@ -26,7 +27,11 @@ const labels = locale === "zh" ? { authors: "作者", venue: "期刊" } : { auth
       {localize(publication.title, locale)}
       {locale === "en" && publication.articleLanguage === "zh" && <small class="article-language">Article in Chinese</small>}
     </h3>
-    <p class="authors">{labels.authors}: {publication.authors}</p>
+    <p class="authors">{labels.authors}: {authorParts.map((part) => (
+      part === "Chengxu Gong" || part === "龚城圩"
+        ? <strong class="author-self">{part}</strong>
+        : part
+    ))}</p>
     <p class="venue">{labels.venue}: {publication.venue} · {publication.year}</p>
     <div class="meta-line">
       <span>{publicationRoleLabels[locale][publication.role]}</span>

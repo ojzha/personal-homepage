@@ -681,6 +681,11 @@ main,
   font-size: 0.92rem;
 }
 
+.authors .author-self {
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .doi-line {
   margin: 0.35rem 0 0;
   color: var(--muted);
