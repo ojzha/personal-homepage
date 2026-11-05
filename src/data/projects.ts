@@ -90,9 +90,9 @@ export const projects: Project[] = [
       ]
     },
     outputs: {
-      zh: ["SCI 论文 1 篇（第一作者，在审）", "EI 论文 1 篇（第二作者）", "授权实用新型专利 2 项"],
+      zh: ["SCI 论文 1 篇（第一作者，已发表）", "EI 论文 1 篇（第二作者）", "授权实用新型专利 2 项"],
       en: [
-        "One first-author SCI manuscript under review.",
+        "One published first-author SCI paper.",
         "One second-author EI-indexed publication.",
         "Two granted utility model patents."
       ]
